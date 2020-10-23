@@ -1,4 +1,6 @@
 import React from "react";
+import WatchedEventHandler from "../AddToWatchedHandler/WatchedEventHandler.jsx";
+import WatchEventHandler from "../AddToWatchHandler/WatchEventHandler.jsx";
 
 class MovieData extends React.Component {
   constructor(props) {
@@ -15,7 +17,7 @@ class MovieData extends React.Component {
   }
 
   render() {
-    console.log(this.props.movieData);
+    // console.log(this.props.movieData);
     // let { movieData } = this.props;
     const { title } = this.props.movieData;
     const { overview } = this.props.movieData;
@@ -24,24 +26,30 @@ class MovieData extends React.Component {
     let { open } = this.state;
 
     return (
-      <div
-        className={"movieTitleContainer"}
-        onClick={(event) => {
-          this.togglePanel(event);
-        }}
-      >
-        {title}
-        {open ? (
-          <React.Fragment>
-            <button>this is button</button> <button> anotha one</button>
-            <div className={"moviePanelInfo"}>
-              <p>{overview} </p>
-              <p> {release_date} </p>
-              <p> {imdbRating} </p>
-            </div>
-          </React.Fragment>
-        ) : null}
-      </div>
+      <>
+        <div
+          className={"movieTitleContainer"}
+          onClick={(event) => {
+            this.togglePanel(event);
+          }}
+        >
+          {title}
+        </div>
+
+        <div className={'moviePanel'}>
+          {open ? (
+            <React.Fragment>
+              <button onClick={ (event, title) => { WatchedEventHandler(event, title) }}> add to Watched </button>{" "}
+              <button onClick={ (event) => { WatchEventHandler(event) }}> need to Watch </button>
+              <div className={"moviePanelInfo"}>
+                <p> Description: {overview} </p>
+                <p> Release Date: {release_date} </p>
+                <p> imdbRating: {imdbRating} </p>
+              </div>
+            </React.Fragment>
+          ) : null}
+        </div>
+      </>
     );
   }
 }

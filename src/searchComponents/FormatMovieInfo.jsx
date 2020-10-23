@@ -15,11 +15,11 @@ const FormatMovieInfo = (props) => {
   }
 
   if ( letterToSearch !== wordToSearch ) {
-    console.log('in if statement', movieDataArr)
+    // console.log('in if statement', movieDataArr)
     updateMovies(letterToSearch);
     return null;
   }
-  console.log(props);
+  // console.log(props);
 
   return (
     <div className={"movieListSearchContainer"}>
