@@ -25,7 +25,7 @@ class App extends React.Component {
   }
 
   render() {
-    console.log('rerendered')
+    // console.log('rerendered')
     return (  
       <div>
         <div className="searchBar">

@@ -2,22 +2,17 @@ import React from "react";
 import axios from "axios";
 import FormatMovieInfo from "./FormatMovieInfo";
 import { render } from "react-dom";
-import REACT_APP_API_KEY from '../../config/api.js'
-
-
-
+import REACT_APP_API_KEY from "../../config/api.js";
 
 class GetMovieSearchResult extends React.Component {
   constructor() {
     super();
     this.state = {
       movies: [],
-      wordToSearch: '',
-      // previousMovies: [],
+      wordToSearch: "",
     };
 
     this.updatedMovieState = this.updatedMovieState.bind(this);
-
   }
 
   dynamicSearch(searchWord) {
@@ -29,7 +24,6 @@ class GetMovieSearchResult extends React.Component {
           `https://api.themoviedb.org/3/search/movie?api_key=${REACT_APP_API_KEY}&query=${searchWord}`
         )
         .then((data) => {
-          // console.log(data);
           return data.data.results;
         })
         .catch((err) => {
@@ -53,12 +47,8 @@ class GetMovieSearchResult extends React.Component {
         movieData = resolveMovieDataReq;
       } catch (err) {
         console.log(err);
-      } 
-      // document.getElementsByClassName("movieListSearchContainer")
-      // $('.movieListSearchContainer').remove()
-      console.log('removed div?')
-      // console.log(document.getElementsByClassName)
-      that.setState({ movies: movieData, wordToSearch: searchWord});
+      }
+      that.setState({ movies: movieData, wordToSearch: searchWord });
     }
 
     initializeMovieData();
@@ -69,27 +59,21 @@ class GetMovieSearchResult extends React.Component {
     that.dynamicSearch(searchWord);
   }
 
-
   render() {
-
     const { nameToSearch } = this.props;
     const { movies } = this.state;
     const { wordToSearch } = this.state;
 
     return (
-      <div>
-        <FormatMovieInfo
-          letterToSearch={nameToSearch}
-          movieDataArr={movies}
-          wordToSearch={wordToSearch}
-          // previousMovieDataArr={ previousMovies }
-          updateMovies={this.updatedMovieState}
-        />
-      </div>
+      <FormatMovieInfo
+        letterToSearch={nameToSearch}
+        movieDataArr={movies}
+        wordToSearch={wordToSearch}
+        // previousMovieDataArr={ previousMovies }
+        updateMovies={this.updatedMovieState}
+      />
     );
   }
 }
-
-
 
 export default GetMovieSearchResult;

@@ -4,7 +4,7 @@ import { render } from "react-dom";
 import $ from 'jquery';
 
 const FormatMovieInfo = (props) => {
-    console.log(props);
+    // console.log(props);
   let { letterToSearch } = props;
   let { movieDataArr } = props;
   let { wordToSearch } = props;
@@ -30,7 +30,6 @@ const FormatMovieInfo = (props) => {
     </div>
   );
 
-  //   return null;
 };
 
 export default FormatMovieInfo;
