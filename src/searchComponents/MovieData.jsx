@@ -1,6 +1,4 @@
 import React from "react";
-import WatchedEventHandler from "../AddToWatchedHandler/WatchedEventHandler.jsx";
-import WatchEventHandler from "../AddToWatchHandler/WatchEventHandler.jsx";
 
 class MovieData extends React.Component {
   constructor(props) {
@@ -9,12 +7,23 @@ class MovieData extends React.Component {
       open: false,
     };
     this.togglePanel = this.togglePanel.bind(this);
+    this.watchedEventHandler = this.watchedEventHandler.bind(this);
+    this.UnWatchedEventHandler = this.UnWatchedEventHandler.bind(this);
   }
 
   togglePanel(event) {
     let isOpen = this.state.open;
     this.setState({ open: !isOpen });
   }
+
+  watchedEventHandler(movieInfo) {
+    console.log(movieInfo,'already watched')
+  }
+
+  UnWatchedEventHandler(movieInfo) {
+    console.log(movieInfo,'un watched movie')
+  }
+
 
   render() {
     // console.log(this.props.movieData);
@@ -29,18 +38,18 @@ class MovieData extends React.Component {
       <>
         <div
           className={"movieTitleContainer"}
-          onClick={(event) => {
-            this.togglePanel(event);
+          onClick={() => {
+            this.togglePanel();
           }}
         >
           {title}
         </div>
 
-        <div className={'moviePanel'}>
+        <div className={'moviePanel'}> 
           {open ? (
             <React.Fragment>
-              <button onClick={ (event, title) => { WatchedEventHandler(event, title) }}> add to Watched </button>{" "}
-              <button onClick={ (event) => { WatchEventHandler(event) }}> need to Watch </button>
+              <button onClick={ () => { this.watchedEventHandler(this) }}> add to Watched </button>{" "}
+              <button onClick={ () => { this.UnWatchedEventHandler(this) }}> need to Watch </button>
               <div className={"moviePanelInfo"}>
                 <p> Description: {overview} </p>
                 <p> Release Date: {release_date} </p>
