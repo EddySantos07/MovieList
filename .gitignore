@@ -11,6 +11,9 @@ config/
 /database/db.jsx
 database/db.jsx
 database/db
+/database
+database/
+
 
 # OS generated files
 .DS_Store
