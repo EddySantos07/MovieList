@@ -9,3 +9,6 @@ let connection = mysql.createConnection({
 connection.connect(err => {
     if (err) console.log(err);
 })
+
+
+console.log('git ignore?')
