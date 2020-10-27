@@ -5,3 +5,7 @@ let connection = mysql.createConnection({
     user: "yourusername",
     password: "yourpassword"
 });
+
+connection.connect(err => {
+    if (err) console.log(err);
+})

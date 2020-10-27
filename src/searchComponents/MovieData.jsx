@@ -19,7 +19,7 @@ class MovieData extends React.Component {
 
   WatchedEventHandler(movieInfo) {
     console.log(movieInfo,'already watched')
-    console.log(WatchedMovies.prototype.updateWatchedMoviesState());
+    
     // console.log()
     // first check if it is in the UnWatched table 
     // if it is delete the movie from UnWatched if not then skip to next step ...
@@ -29,6 +29,8 @@ class MovieData extends React.Component {
     // / if its already in the table make a pop up message;
 
     // we then can update the state of seen / unseen movies;
+    // which is the line below;
+    // console.log(WatchedMovies.prototype.updateWatchedMoviesState());
   }
 
   UnWatchedEventHandler(movieInfo) {
