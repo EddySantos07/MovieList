@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import GetMovieSearchResult from "./searchComponents/GetMovieSearchResult.jsx";
+import WatchedMovies from './DisplayWachedMovies && UnWatched Movies/WatchedMovies.jsx';
 
 class App extends React.Component {
   constructor(...props) {
@@ -36,8 +37,8 @@ class App extends React.Component {
           <GetMovieSearchResult nameToSearch={this.state.textField} />
         </div>
 
-        <div className={"seen"}>
-          
+        <div className={"watchedMovies"}>
+         <WatchedMovies />
         </div>
 
         <div className={"want to see"}></div>

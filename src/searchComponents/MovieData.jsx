@@ -1,4 +1,5 @@
 import React from "react";
+import WatchedMovies from '../DisplayWachedMovies && UnWatched Movies/WatchedMovies.jsx';
 
 class MovieData extends React.Component {
   constructor(props) {
@@ -7,7 +8,7 @@ class MovieData extends React.Component {
       open: false,
     };
     this.togglePanel = this.togglePanel.bind(this);
-    this.watchedEventHandler = this.watchedEventHandler.bind(this);
+    this.WatchedEventHandler = this.WatchedEventHandler.bind(this);
     this.UnWatchedEventHandler = this.UnWatchedEventHandler.bind(this);
   }
 
@@ -16,12 +17,31 @@ class MovieData extends React.Component {
     this.setState({ open: !isOpen });
   }
 
-  watchedEventHandler(movieInfo) {
+  WatchedEventHandler(movieInfo) {
     console.log(movieInfo,'already watched')
+    console.log(WatchedMovies.prototype.updateWatchedMoviesState());
+    // console.log()
+    // first check if it is in the UnWatched table 
+    // if it is delete the movie from UnWatched if not then skip to next step ...
+
+    //check if it is in the watched table
+    // if its not in table add it to the watched table
+    // / if its already in the table make a pop up message;
+
+    // we then can update the state of seen / unseen movies;
   }
 
   UnWatchedEventHandler(movieInfo) {
     console.log(movieInfo,'un watched movie')
+
+    // first check if it is in the Watched table 
+    // if it is delete the movie from Watched if not then skip to next step ...
+
+    //check if it is in the UnWatched table
+    // if its not in table add it to the UnWatched table
+    // / if its already in the table make a pop up message;
+
+    // we then can update the state of seen / unseen movies;
   }
 
 
@@ -47,15 +67,15 @@ class MovieData extends React.Component {
 
         <div className={'moviePanel'}> 
           {open ? (
-            <React.Fragment>
-              <button onClick={ () => { this.watchedEventHandler(this) }}> add to Watched </button>{" "}
+            <>
+              <button onClick={ () => { this.WatchedEventHandler(this) }}> add to Watched </button>{" "}
               <button onClick={ () => { this.UnWatchedEventHandler(this) }}> need to Watch </button>
               <div className={"moviePanelInfo"}>
                 <p> Description: {overview} </p>
                 <p> Release Date: {release_date} </p>
                 <p> imdbRating: {imdbRating} </p>
               </div>
-            </React.Fragment>
+            </>
           ) : null}
         </div>
       </>
