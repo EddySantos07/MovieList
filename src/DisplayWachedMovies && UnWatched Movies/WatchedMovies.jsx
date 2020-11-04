@@ -50,7 +50,7 @@ function WatchedMovies() {
   });
 
   // return 'this is WATCHED MOVIES';
-return <div>this is WATCHED MOVIES and this is state -> {WatchedMoviesList}</div>;
+ return <div>this is WATCHED MOVIES and this is state - {WatchedMoviesList}</div>;
 }
 
 export default WatchedMovies;
