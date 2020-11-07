@@ -1,5 +1,6 @@
 import React from "react";
-import WatchedMovies from '../DisplayWachedMovies && UnWatched Movies/WatchedMovies.jsx';
+import WatchedMovies from "../DisplayWachedMovies && UnWatched Movies/WatchedMovies.jsx";
+import axios from "axios";
 
 class MovieData extends React.Component {
   constructor(props) {
@@ -18,10 +19,21 @@ class MovieData extends React.Component {
   }
 
   WatchedEventHandler(movieInfo) {
-    console.log(movieInfo,'already watched')
-    
+    console.log(movieInfo, "already watched");
+    const movieData = movieInfo.props.MovieData;
     // console.log()
-    // first check if it is in the UnWatched table 
+    // first check if it is in the UnWatched table
+    axios
+      .get("/unseenMovies", { movieData })
+      .then((data) => {
+        console.log(
+          data,
+          `this is the data from checking unseen table in mysql`
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     // if it is delete the movie from UnWatched if not then skip to next step ...
 
     //check if it is in the watched table
@@ -34,9 +46,9 @@ class MovieData extends React.Component {
   }
 
   UnWatchedEventHandler(movieInfo) {
-    console.log(movieInfo,'un watched movie')
+    console.log(movieInfo, "un watched movie");
 
-    // first check if it is in the Watched table 
+    // first check if it is in the Watched table
     // if it is delete the movie from Watched if not then skip to next step ...
 
     //check if it is in the UnWatched table
@@ -45,7 +57,6 @@ class MovieData extends React.Component {
 
     // we then can update the state of seen / unseen movies;
   }
-
 
   render() {
     // console.log(this.props.movieData);
@@ -67,11 +78,26 @@ class MovieData extends React.Component {
           {title}
         </div>
 
-        <div className={'moviePanel'}> 
+        <div className={"moviePanel"}>
           {open ? (
             <>
-              <button onClick={ () => { this.WatchedEventHandler(this) }}> add to Watched </button>{" "}
-              <button onClick={ () => { this.UnWatchedEventHandler(this) }}> need to Watch </button>
+              <button
+                onClick={() => {
+                  this.WatchedEventHandler(this);
+                }}
+              >
+                {" "}
+                add to Watched{" "}
+              </button>{" "}
+
+              <button
+                onClick={() => {
+                  this.UnWatchedEventHandler(this);
+                }}
+              >
+                {" "}
+                need to Watch{" "}
+              </button>
               <div className={"moviePanelInfo"}>
                 <p> Description: {overview} </p>
                 <p> Release Date: {release_date} </p>

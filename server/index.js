@@ -1,3 +1,4 @@
+const { checkUnseenMoviesTable } = require('../database/db.js')
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express()
@@ -16,3 +17,13 @@ const port = 3000;
 var server = app.listen(port, () => {
     console.log(`Listening on port: ${port}`);
 });
+
+app.get('/unseenMovies', (req, res) => {
+    // this route should call checkUnseenMoviesTable then send back the result of
+    // true or false if its in the table or not!
+    // console.log(req, " <- this is REQUEST")
+    console.log(req.body.movieData);
+    const result = checkUnseenMoviesTable();
+    console.log(result, `this is the result!`);
+    // res(result);
+})

@@ -23,12 +23,12 @@ connection.connect((err) => {
 
   //   connection.query(Check_If_DB_Exists, (err, result) => {});
   connection.query(queryDB_If_Exists, (err, result) => {
-    console.log("step 1) we check if db EXISTS");
+    // console.log("step 1) we check if db EXISTS");
     if (err) {
       console.log(err);
     }
 
-    console.log(result, "step 2) get the result if it exists or not");
+    // console.log(result, "step 2) get the result if it exists or not");
 
     if (result.length === 0) {
       const seenMoviesTable = `CREATE TABLE seen_movies ( 
@@ -44,45 +44,57 @@ connection.connect((err) => {
       );`;
 
       connection.query(createDB, (err, result) => {
-        console.log(`step 3) if db doesnt exist create it`);
+        // console.log(`step 3) if db doesnt exist create it`);
         if (err) {
           console.log(err);
         }
-        console.log(`${DB_Name} Created!`);
+        // console.log(`${DB_Name} Created!`);
       });
 
       connection.query(useDB, (err, result) => {
         if (err) {
           console.log(err);
         }
-        console.log( "STEP 3.5) USE DB WHEN MADE");
+        // console.log( "STEP 3.5) USE DB WHEN MADE");
       });
 
       connection.query(seenMoviesTable, (err, result) => {
         if (err) {
           console.log(err);
         }
-        console.log('Created TABLE  seen Movies');
+        // console.log('Created TABLE  seen Movies');
       })
 
       connection.query(unseenMoviesTable, (err, result) => {
         if (err) {
           console.log(err);
         }
-        console.log( `CREATED TABLE unseen_movies`)
+        // console.log( `CREATED TABLE unseen_movies`)
       })
 
     } else {
-      console.log(result, "STEP 4) this is if the db already exists");
+      // console.log(result, "STEP 4) this is if the db already exists");
 
       connection.query(useDB, (err, result) => {
         if (err) {
           console.log(err);
         }
-        console.log(result, "STEP 5) USE DB THATS ALREADY MADE");
+        // console.log(result, "STEP 5) USE DB THATS ALREADY MADE");
       });
     }
   });
 
 });
 
+// make func to check tables for movie id && title
+
+let checkUnseenMoviesTable = (movieData) => {
+  const queryCheckUnSeenMovies = `SELECT id, name FROM unseen_movies`
+  console.log(` IN checkUnseenMoviesTable going to check db in unseen table`)
+  // console.log()
+  // connection.query(queryCheckUnSeenMovies, (err, result) => {
+
+  // })
+}
+
+module.exports.checkUnseenMoviesTable = checkUnseenMoviesTable;
