@@ -88,13 +88,29 @@ connection.connect((err) => {
 
 // make func to check tables for movie id && title
 
-let checkUnseenMoviesTable = (movieData) => {
-  const queryCheckUnSeenMovies = `SELECT id, name FROM unseen_movies`
-  console.log(` IN checkUnseenMoviesTable going to check db in unseen table`)
-  // console.log()
-  // connection.query(queryCheckUnSeenMovies, (err, result) => {
+let checkUnseenMoviesTable = (title, desc, id, callBack) => {
 
-  // })
+  const queryCheckUnSeenMovies = `SELECT * FROM unseen_movies WHERE name = '${title}' AND description = '${desc}' AND id = '${id}';`;
+
+  console.log(` IN checkUnseenMoviesTable going to check db in unseen table`)
+
+  let response;
+  connection.query(queryCheckUnSeenMovies, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log('WE got RESULT BACK')
+    if (result.length === 0 ) {
+      response = false;
+      callBack(response);
+      return;
+    }
+    console.log(result)
+    response = true;
+
+    callBack(response);
+  })
+
 }
 
 module.exports.checkUnseenMoviesTable = checkUnseenMoviesTable;

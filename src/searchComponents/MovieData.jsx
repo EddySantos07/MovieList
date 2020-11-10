@@ -20,15 +20,15 @@ class MovieData extends React.Component {
 
   WatchedEventHandler(movieInfo) {
     console.log(movieInfo, "already watched");
-    const movieData = movieInfo.props.MovieData;
-    // console.log()
+    const movieData = movieInfo.props.movieData;
+    // console.log(movieData)
     // first check if it is in the UnWatched table
     axios
-      .get("/unseenMovies", { movieData })
+      .post("/unseenMovies", { "movie": movieData })
       .then((data) => {
         console.log(
           data,
-          `this is the data from checking unseen table in mysql`
+          `this is the data from checking unseen table in mysql ===> ${data}`
         );
       })
       .catch((err) => {
