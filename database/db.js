@@ -99,18 +99,49 @@ let checkUnseenMoviesTable = (title, desc, id, callBack) => {
     if (err) {
       console.log(err);
     }
-    console.log('WE got RESULT BACK')
+    console.log('WE got RESULT BACK,', result);
     if (result.length === 0 ) {
-      response = false;
+      response = false; // NOT in UnseenMoviesTable so return false no match
       callBack(response);
       return;
     }
-    console.log(result)
-    response = true;
+    // console.log(result)
+    response = true; // IT IS in UnseenMovies Table
 
     callBack(response);
   })
 
 }
 
+let addToSeenMoviesTable = (title, desc, id, callBack) => {
+
+  const addToSeenMovieTable = `INSERT INTO seen_movies (id, name, description) VALUES ('${id}', '${title}', '${desc}');`;
+
+  connection.query(addToSeenMovieTable, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log('added to SEEN movies db table');
+    callBack(true);
+  })
+
+}
+
+let deleteMovieInUnseenTable = (title, desc, id, callBack) => {
+
+  const deleteMovieQueryInUnseenTable = `DELETE FROM unseen_movies WHERE name = '${title}' AND description = '${desc}' AND id = '${id}';`;
+
+  connection.query(deleteMovieQueryInUnseenTable, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log('DELETED movie in UNSEEN table');
+    callBack(true);
+  })
+}
+
 module.exports.checkUnseenMoviesTable = checkUnseenMoviesTable;
+
+module.exports.addToSeenMoviesTable = addToSeenMoviesTable;
+module.exports.deleteMovieInUnseenTable = deleteMovieInUnseenTable;
+// console.log(module)

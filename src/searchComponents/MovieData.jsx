@@ -24,16 +24,47 @@ class MovieData extends React.Component {
     // console.log(movieData)
     // first check if it is in the UnWatched table
     axios
-      .post("/unseenMovies", { "movie": movieData })
+      .post("/unseenMovies", { movie: movieData })
       .then((data) => {
         console.log(
-          data,
-          `this is the data from checking unseen table in mysql ===> ${data}`
+          data.data,
+          `this is the data from checking unseen table in mysql`
         );
+        const isUnseenMovie = data.data;
+        if (isUnseenMovie === false) {
+          addToSeenTable();
+        } else if (isUnseenMovie === true) {
+          deleteUnSeenMovieInTable();
+          addToSeenTable();
+        }
       })
       .catch((err) => {
         console.log(err);
       });
+
+    async function addToSeenTable () {
+      let result;
+      const endPointQuery = await axios.post('/addToSeenMovies', { movie: movieData })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      return result;
+    }
+
+    async function deleteUnSeenMovieInTable () {
+      let result;
+      const endPointQuery = await axios.post('/addToSeenMovies', { movie: movieData })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      return result;
+    }
     // if it is delete the movie from UnWatched if not then skip to next step ...
 
     //check if it is in the watched table
@@ -89,7 +120,6 @@ class MovieData extends React.Component {
                 {" "}
                 add to Watched{" "}
               </button>{" "}
-
               <button
                 onClick={() => {
                   this.UnWatchedEventHandler(this);
