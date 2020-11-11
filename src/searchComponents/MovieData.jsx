@@ -18,51 +18,84 @@ class MovieData extends React.Component {
     this.setState({ open: !isOpen });
   }
 
-  WatchedEventHandler(movieInfo) {
+  async WatchedEventHandler(movieInfo) {
     console.log(movieInfo, "already watched");
     const movieData = movieInfo.props.movieData;
+
+    const unseen_movies = "unseen_movies";
+    const seen_movies = "seen_movies";
     // console.log(movieData)
     // first check if it is in the UnWatched table
-    axios
-      .post("/unseenMovies", { movie: movieData })
-      .then((data) => {
-        console.log(
-          data.data,
-          `this is the data from checking unseen table in mysql`
-        );
-        const isUnseenMovie = data.data;
-        if (isUnseenMovie === false) {
-          addToSeenTable();
-        } else if (isUnseenMovie === true) {
-          deleteUnSeenMovieInTable();
-          addToSeenTable();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    console.log(' TESTT')
+    let checkMovieInWatchedQuery = await checkIfMovieIsInTable();
+    // console.log(checkMovieInWatchedQuery)
+    if ( checkMovieInWatchedQuery.data === true ) {
 
-    async function addToSeenTable () {
+      console.log(`movie is already in watched!`, checkMovieInWatchedQuery.data,'??');
+      return;
+    } else {
+      console.log('movie is not in saved???')
+      axios
+        .post("/unseenMovies", { movie: movieData })
+        .then((data) => {
+          console.log(
+            data.data,
+            `this is the data from checking unseen table in mysql`
+          );
+          const isUnseenMovie = data.data;
+
+          if (isUnseenMovie === false) {
+            addToSeenTable();
+          } else if (isUnseenMovie === true) {
+            deleteUnSeenMovieInTable();
+            addToSeenTable();
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    async function checkIfMovieIsInTable() {
+      let queryResult;
+      const endPointQuery = await axios
+        .post('/checkIfMovieExistsInTable', {
+          movie: movieData,
+          table: seen_movies,
+        })
+        .then((result) => {
+          console.log(result);
+          queryResult = result;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      return queryResult;
+    }
+
+    async function addToSeenTable() {
       let result;
-      const endPointQuery = await axios.post('/addToSeenMovies', { movie: movieData })
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+      const endPointQuery = await axios
+        .post("/addToSeenMovies", { movie: movieData })
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       return result;
     }
 
-    async function deleteUnSeenMovieInTable () {
+    async function deleteUnSeenMovieInTable() {
       let result;
-      const endPointQuery = await axios.post('/addToSeenMovies', { movie: movieData })
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+      const endPointQuery = await axios
+        .post("/addToSeenMovies", { movie: movieData })
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       return result;
     }
     // if it is delete the movie from UnWatched if not then skip to next step ...

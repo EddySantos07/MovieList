@@ -88,9 +88,12 @@ connection.connect((err) => {
 
 // make func to check tables for movie id && title
 
+const unseen_movies = 'unseen_movies';
+const seen_movies = 'seen_movies';
+
 let checkUnseenMoviesTable = (title, desc, id, callBack) => {
 
-  const queryCheckUnSeenMovies = `SELECT * FROM unseen_movies WHERE name = '${title}' AND description = '${desc}' AND id = '${id}';`;
+  const queryCheckUnSeenMovies = `SELECT * FROM unseen_movies WHERE name = "${title}" AND description = "${desc}" AND id = ${id};`;
 
   console.log(` IN checkUnseenMoviesTable going to check db in unseen table`)
 
@@ -115,7 +118,7 @@ let checkUnseenMoviesTable = (title, desc, id, callBack) => {
 
 let addToSeenMoviesTable = (title, desc, id, callBack) => {
 
-  const addToSeenMovieTable = `INSERT INTO seen_movies (id, name, description) VALUES ('${id}', '${title}', '${desc}');`;
+  const addToSeenMovieTable = `INSERT INTO seen_movies (id, name, description) VALUES ('${id}', "${title}", "${desc}");`;
 
   connection.query(addToSeenMovieTable, (err, result) => {
     if (err) {
@@ -140,8 +143,30 @@ let deleteMovieInUnseenTable = (title, desc, id, callBack) => {
   })
 }
 
+let checkIfMovieIsInTable = (title, desc, id, callBack, table) => {
+
+  const queryCheck = `SELECT * FROM ${table} WHERE name = "${title}" AND description = "${desc}" AND id = "${id}";`;
+
+  connection.query( queryCheck, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log(result, 'checking table first to see if movie is already saved');
+    if (result.length > 0) {
+      callBack(true);
+      return;
+    } else {
+      callBack(false);
+      return;
+    }
+  })
+}
+
 module.exports.checkUnseenMoviesTable = checkUnseenMoviesTable;
 
 module.exports.addToSeenMoviesTable = addToSeenMoviesTable;
+
 module.exports.deleteMovieInUnseenTable = deleteMovieInUnseenTable;
+
+module.exports.checkIfMovieIsInTable = checkIfMovieIsInTable;
 // console.log(module)

@@ -1,7 +1,8 @@
 const { checkUnseenMoviesTable } = require('../database/db.js')
 const { addToSeenMoviesTable } = require('../database/db.js');
 const { deleteMovieInUnseenTable } = require('../database/db.js');
-
+const { checkIfMovieIsInTable } = require('../database/db.js');
+ 
 const express = require('express');
 const bodyParser = require("body-parser");
 const app = express()
@@ -18,9 +19,12 @@ var server = app.listen(port, () => {
     console.log(`Listening on port: ${port}`);
 });
 
-app.get('/', function (req, res) {
-    res.send('Hello world');
-});
+const unseen_movies = 'unseen_movies';
+const seen_movies = 'seen_movies';
+
+// app.get('/', function (req, res) {
+//     res.send('Hello world');
+// });
 
 app.post('/unseenMovies', (req, res) => {
     const movieData = req.body.movie;
@@ -65,4 +69,19 @@ app.post(`/deleteUnseenMovie`, (req, res) => {
     }
     
     deleteMovieInUnseenTable(title, description, id, getResultQuery);
+})
+
+app.post('/checkIfMovieExistsInTable', (req, res) => {
+    const movieData = req.body.movie;
+    const { table } = req.body;
+    
+    const title = movieData.title;
+    const description = movieData.overview;
+    const id = movieData.id;
+
+    const getResultQuery = (result) => {
+        console.log(`this is the result!`, result);
+        res.status(200).send(result);
+    }
+    checkIfMovieIsInTable(title, description, id, getResultQuery, table);
 })
