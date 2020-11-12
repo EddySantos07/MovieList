@@ -22,6 +22,8 @@ OR simply -
 ```sh
 node server/index.js
 ```
+
+type a movie youd like to search and then simply add it to you unseen or seen list!
 <!-- 
 ## Level 0
 - [ ] Display a list of movies from hardcoded data.
