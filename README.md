@@ -13,7 +13,15 @@ To create a development build:
 npm run build-dev
 ```
 
-Using live-server (from within your IDE as an extension or via the command line), serve the project. Make sure you are looking at index.html for a live version of the app. 
+Using live-server (from within your IDE as an extension or via the command line), serve the project. Make sure you are looking at index.html for a live version of the app OR if using nodemon -
+```sh
+nodemon server
+```
+OR simply - 
+
+```sh
+node server/index.js
+```
 <!-- 
 ## Level 0
 - [ ] Display a list of movies from hardcoded data.
