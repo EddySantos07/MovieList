@@ -1,7 +1,10 @@
-const { checkUnseenMoviesTable } = require('../database/db.js')
+const { checkUnseenMoviesTable } = require('../database/db.js');
 const { addToSeenMoviesTable } = require('../database/db.js');
 const { deleteMovieInUnseenTable } = require('../database/db.js');
 const { checkIfMovieIsInTable } = require('../database/db.js');
+const { deleteMovieInSeenTable } = require('../database/db.js');
+const { checkSeenMoviesTable } = require('../database/db.js');
+const { addToUnSeenMoviesTable } = require('../database/db.js');
  
 const express = require('express');
 const bodyParser = require("body-parser");
@@ -84,4 +87,49 @@ app.post('/checkIfMovieExistsInTable', (req, res) => {
         res.status(200).send(result);
     }
     checkIfMovieIsInTable(title, description, id, getResultQuery, table);
+})
+
+app.post('/seenMovies', (req, res) => {
+    const movieData = req.body.movie;
+    
+    const title = movieData.title;
+    const description = movieData.overview;
+    const id = movieData.id;
+
+    const getResultQuery = (result) => {
+        // console.log(`this is the result!`, result);
+        res.status(200).send(result);
+    }
+
+    checkSeenMoviesTable(title, description, id, getResultQuery)
+})
+
+app.post('/addToUnSeenMovies', (req, res) => {
+    const movieData = req.body.movie;
+    
+    const title = movieData.title;
+    const description = movieData.overview;
+    const id = movieData.id;
+
+    const getResultQuery = (result) => {
+        // console.log(`this is the result!`, result);
+        res.status(200).send(result);
+    }
+
+    addToUnSeenMoviesTable(title, description, id, getResultQuery);
+})
+
+app.post(`/deleteSeenMovie`, (req, res) => {
+    const movieData = req.body.movie;
+    
+    const title = movieData.title;
+    const description = movieData.overview;
+    const id = movieData.id;
+
+    const getResultQuery = (result) => {
+        // console.log(`this is the result!`, result);
+        res.status(200).send(result);
+    }
+
+    deleteMovieInSeenTable(title, description, id, getResultQuery)
 })

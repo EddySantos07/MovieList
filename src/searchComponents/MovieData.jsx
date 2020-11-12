@@ -26,15 +26,18 @@ class MovieData extends React.Component {
     const seen_movies = "seen_movies";
     // console.log(movieData)
     // first check if it is in the UnWatched table
-    console.log(' TESTT')
+    console.log(" TESTT");
     let checkMovieInWatchedQuery = await checkIfMovieIsInTable();
     // console.log(checkMovieInWatchedQuery)
-    if ( checkMovieInWatchedQuery.data === true ) {
-
-      console.log(`movie is already in watched!`, checkMovieInWatchedQuery.data,'??');
+    if (checkMovieInWatchedQuery.data === true) {
+      console.log(
+        `movie is already in watched!`,
+        checkMovieInWatchedQuery.data,
+        "??"
+      );
       return;
     } else {
-      console.log('movie is not in saved???')
+      console.log("movie is not in saved???");
       axios
         .post("/unseenMovies", { movie: movieData })
         .then((data) => {
@@ -59,7 +62,7 @@ class MovieData extends React.Component {
     async function checkIfMovieIsInTable() {
       let queryResult;
       const endPointQuery = await axios
-        .post('/checkIfMovieExistsInTable', {
+        .post("/checkIfMovieExistsInTable", {
           movie: movieData,
           table: seen_movies,
         })
@@ -89,7 +92,7 @@ class MovieData extends React.Component {
     async function deleteUnSeenMovieInTable() {
       let result;
       const endPointQuery = await axios
-        .post("/addToSeenMovies", { movie: movieData })
+        .post(`/deleteUnseenMovie`, { movie: movieData })
         .then((result) => {
           console.log(result);
         })
@@ -109,8 +112,89 @@ class MovieData extends React.Component {
     // console.log(WatchedMovies.prototype.updateWatchedMoviesState());
   }
 
-  UnWatchedEventHandler(movieInfo) {
+  async UnWatchedEventHandler(movieInfo) {
     console.log(movieInfo, "un watched movie");
+
+    const movieData = movieInfo.props.movieData;
+
+    const unseen_movies = "unseen_movies";
+    const seen_movies = "seen_movies";
+
+    console.log(" TESTT");
+    let checkMovieInWatchedQuery = await checkIfMovieIsInTable();
+
+    if (checkMovieInWatchedQuery.data === true) {
+      console.log(
+        `movie is already in need to watch!`,
+        checkMovieInWatchedQuery.data,
+        "??"
+      );
+      return;
+    } else {
+      console.log("movie is not in saved???");
+      axios
+        .post("/seenMovies", { movie: movieData })
+        .then((data) => {
+          console.log(
+            data.data,
+            `this is the data from checking unseen table in mysql`
+          );
+          const isInSeenMovieTable = data.data;
+
+          if (isInSeenMovieTable === false) {
+            addToUnSeenTable();
+          } else if (isInSeenMovieTable === true) {
+            deleteSeenMovieInTable();
+            addToUnSeenTable();
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    async function checkIfMovieIsInTable() {
+      let queryResult;
+      let endPointQuery = await axios
+        .post("/checkIfMovieExistsInTable", {
+          movie: movieData,
+          table: unseen_movies,
+        })
+        .then((result) => {
+          console.log(result);
+          queryResult = result;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      return queryResult;
+    }
+
+    async function addToUnSeenTable() {
+      let result;
+      const endPointQuery = await axios
+        .post("/addToUnSeenMovies", { movie: movieData })
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      return result;
+    }
+
+    async function deleteSeenMovieInTable() {
+      let result;
+      const endPointQuery = await axios
+        .post(`/deleteSeenMovie`, { movie: movieData })
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      return result;
+    }
 
     // first check if it is in the Watched table
     // if it is delete the movie from Watched if not then skip to next step ...
